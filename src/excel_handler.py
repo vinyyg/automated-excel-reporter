@@ -40,7 +40,7 @@ def salvar_excel(df, caminho):
     df.to_excel(caminho, index=False)
 
 def obter_caminho_consolidado():
-    data = datetime.now().strftime("%d-%m-%Y")
+    data = datetime.now().strftime("%d-%m-%Y_%H-%M-%S")
     pasta = Path(config.ARQUIVO_SAIDA).parent
     return pasta / f"Relatorio Consolidado - {data}.xlsx"
 
@@ -65,3 +65,19 @@ def processar(caminho_arquivo):
     caminho_consolidado = obter_caminho_consolidado()
     copiar_para_consolidado(df, caminho_consolidado)
     return caminho_consolidado, df
+
+def mover_arquivos_processados():
+    import shutil
+
+    raiz             = Path(__file__).parent.parent
+    pasta_input      = Path(config.PASTA_INPUT)      if config.PASTA_INPUT      else raiz / "input"
+    pasta_repository = Path(config.PASTA_REPOSITORY) if config.PASTA_REPOSITORY else raiz / "repository"
+
+    data_hora     = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+    pasta_destino = pasta_repository / data_hora
+    pasta_destino.mkdir(parents=True, exist_ok=True)
+
+    for arquivo in pasta_input.glob("*.xlsx"):
+        shutil.move(str(arquivo), str(pasta_destino / arquivo.name))
+
+    return pasta_destino    

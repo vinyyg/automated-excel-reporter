@@ -46,3 +46,54 @@ Duração : 3.6 segundos
 Status final : SUCESSO
 ============================================
 
+============================================
+   RELATÓRIO DE EXECUÇÃO
+============================================
+Início  : 09/05/2026 18:11:56
+Fim     : 09/05/2026 18:11:59
+Duração : 3.6 segundos
+--------------------------------------------
+✅ Arquivos encontrados : 3 arquivos
+✅ Processado: vendas_semana1.xlsx : 8 linhas
+✅ Processado: vendas_semana2.xlsx : 8 linhas
+✅ Processado: vendas_semana3.xlsx : 8 linhas
+✅ E-mail enviado : guerramarcosv@gmail.com
+❌ Erro na execução : module 'excel_handler' has no attribute 'mover_arquivos_processados'
+--------------------------------------------
+Status final : FALHA
+============================================
+
+============================================
+   RELATÓRIO DE EXECUÇÃO
+============================================
+Início  : 09/05/2026 18:17:50
+Fim     : 09/05/2026 18:17:54
+Duração : 3.8 segundos
+--------------------------------------------
+✅ Arquivos encontrados : 3 arquivos
+✅ Processado: vendas_semana1.xlsx : 8 linhas
+✅ Processado: vendas_semana2.xlsx : 8 linhas
+✅ Processado: vendas_semana3.xlsx : 8 linhas
+✅ E-mail enviado : guerramarcosv@gmail.com
+❌ Erro na execução : argument should be a str or an os.PathLike object where __fspath__ returns a str, not 'NoneType'
+--------------------------------------------
+Status final : FALHA
+============================================
+
+============================================
+   RELATÓRIO DE EXECUÇÃO
+============================================
+Início  : 09/05/2026 18:19:24
+Fim     : 09/05/2026 18:19:28
+Duração : 3.7 segundos
+--------------------------------------------
+✅ Arquivos encontrados : 3 arquivos
+✅ Processado: vendas_semana1.xlsx : 8 linhas
+✅ Processado: vendas_semana2.xlsx : 8 linhas
+✅ Processado: vendas_semana3.xlsx : 8 linhas
+✅ E-mail enviado : guerramarcosv@gmail.com
+✅ Arquivos movidos : C:\Projetos\Portfolio\automated-excel-report\repository\2026-05-09_18-19-28
+--------------------------------------------
+Status final : SUCESSO
+============================================
+
