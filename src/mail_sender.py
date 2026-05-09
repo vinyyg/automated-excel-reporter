@@ -29,10 +29,10 @@ Segue o relatório consolidado de vendas gerado automaticamente.
 📊 RESUMO
 ─────────────────────────────
 Total de vendas : {total_vendas}
-✅ Aprovados    : {aprovados}
-❌ Cancelados   : {cancelados}
-⏳ Pendentes    : {pendentes}
-💰 Total geral  : R$ {total_geral:,.2f}
+Aprovados    : {aprovados}
+Cancelados   : {cancelados}
+Pendentes    : {pendentes}
+Total geral  : R$ {total_geral:,.2f}
 ─────────────────────────────
 
 O arquivo completo está em anexo.
@@ -49,7 +49,7 @@ def _anexar_arquivo(msg, caminho_anexo):
         parte = MIMEBase("application", "octet-stream")
         parte.set_payload(f.read())
         encoders.encode_base64(parte)
-        parte.add_header("Content-Disposition", f"attachment; filename={anexo.name}")
+        parte.add_header("Content-Disposition", f'attachment; filename="{anexo.name}"')
         msg.attach(parte)
 
 

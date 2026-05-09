@@ -14,3 +14,35 @@ Duração : 0.0 segundos
 Status final : FALHA
 ============================================
 
+============================================
+   RELATÓRIO DE EXECUÇÃO
+============================================
+Início  : 09/05/2026 17:56:49
+Fim     : 09/05/2026 17:56:53
+Duração : 3.6 segundos
+--------------------------------------------
+✅ Arquivos encontrados : 3 arquivos
+✅ Processado: vendas_semana1.xlsx : 8 linhas
+✅ Processado: vendas_semana2.xlsx : 8 linhas
+✅ Processado: vendas_semana3.xlsx : 8 linhas
+✅ E-mail enviado : guerramarcosv@gmail.com
+--------------------------------------------
+Status final : SUCESSO
+============================================
+
+============================================
+   RELATÓRIO DE EXECUÇÃO
+============================================
+Início  : 09/05/2026 18:00:27
+Fim     : 09/05/2026 18:00:31
+Duração : 3.6 segundos
+--------------------------------------------
+✅ Arquivos encontrados : 3 arquivos
+✅ Processado: vendas_semana1.xlsx : 8 linhas
+✅ Processado: vendas_semana2.xlsx : 8 linhas
+✅ Processado: vendas_semana3.xlsx : 8 linhas
+✅ E-mail enviado : guerramarcosv@gmail.com
+--------------------------------------------
+Status final : SUCESSO
+============================================
+
