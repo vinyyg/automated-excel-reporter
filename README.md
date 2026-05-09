@@ -1,121 +1,121 @@
 # Automated Excel Report
 
-Sistema de automação que monitora uma pasta, consolida arquivos Excel de vendas, envia o relatório por e-mail e arquiva os arquivos processados.
+An automation system that monitors a folder, consolidates Excel sales files, sends the report by email, and archives the processed files.
 
-## Funcionalidades
+## Features
 
-- Monitoramento automático de pasta via watchdog
-- Consolidação de múltiplos arquivos `.xlsx` em um único relatório
-- Formatação condicional por status (Aprovado, Cancelado, Pendente)
-- Envio de e-mail via SMTP/Gmail com o relatório em anexo
-- Arquivamento dos arquivos processados em pasta com timestamp
-- Log de execução com status de cada etapa
+- Automatic folder monitoring via watchdog
+- Consolidation of multiple `.xlsx` files into a single report
+- Conditional formatting by status (Approved, Cancelled, Pending)
+- Email delivery via SMTP/Gmail with the report as an attachment
+- Processed files archived in a timestamped folder
+- Execution log with per-step status
 
-## Estrutura do projeto
+## Project structure
 
 ```
 automated-excel-report/
-├── main.py                  # Ponto de entrada — inicia o monitoramento
-├── config.py                # Leitura de variáveis de ambiente
+├── main.py                  # Entry point — starts the folder monitoring
+├── config.py                # Environment variable loading
 ├── requirements.txt
-├── .env                     # Variáveis de ambiente (não versionado)
-├── .env.example             # Modelo de configuração
-├── input/                   # Pasta monitorada — coloque os .xlsx aqui
-├── output/                  # Relatórios consolidados gerados
-├── repository/              # Arquivos processados arquivados por data/hora
+├── .env                     # Environment variables (not versioned)
+├── .env.example             # Configuration template
+├── input/                   # Monitored folder — place .xlsx files here
+├── output/                  # Generated consolidated reports
+├── repository/              # Processed files archived by date/time
 ├── logs/
 │   └── execucao.log
 ├── src/
-│   ├── excel_handler.py     # Leitura, processamento e consolidação dos Excel
-│   ├── mail_sender.py       # Montagem e envio de e-mail
-│   ├── reporter.py          # Relatório de execução e log
-│   └── scheduler.py        # Monitoramento de pasta com watchdog
+│   ├── excel_handler.py     # Excel reading, processing and consolidation
+│   ├── mail_sender.py       # Email composition and delivery
+│   ├── reporter.py          # Execution report and log
+│   └── scheduler.py         # Folder monitoring with watchdog
 └── tests/
     ├── test_excel.py
     ├── test_email.py
     ├── test_reporter.py
-    └── test_main.py         # Teste completo do fluxo
+    └── test_main.py         # Full flow test
 ```
 
-## Configuração
+## Setup
 
-### 1. Instalar dependências
+### 1. Install dependencies
 
 ```bash
 pip install -r requirements.txt
 ```
 
-### 2. Configurar variáveis de ambiente
+### 2. Configure environment variables
 
-Copie o `.env.example` para `.env` e preencha os valores:
+Copy `.env.example` to `.env` and fill in the values:
 
 ```env
-PASTA_INPUT=C:\caminho\para\input
-PASTA_REPOSITORY=C:\caminho\para\repository
-ARQUIVO_SAIDA=C:\caminho\para\output\relatorio.xlsx
-ARQUIVO_LOG=C:\caminho\para\logs\execucao.log
+PASTA_INPUT=C:\path\to\input
+PASTA_REPOSITORY=C:\path\to\repository
+ARQUIVO_SAIDA=C:\path\to\output\report.xlsx
+ARQUIVO_LOG=C:\path\to\logs\execucao.log
 
-EMAIL_REMETENTE=seu@gmail.com
-EMAIL_SENHA=sua_senha_de_app
-EMAIL_DESTINATARIO=destinatario@email.com
-ASSUNTO_EMAIL=Relatório Automático
+EMAIL_REMETENTE=you@gmail.com
+EMAIL_SENHA=your_app_password
+EMAIL_DESTINATARIO=recipient@email.com
+ASSUNTO_EMAIL=Automated Report
 
 HORARIO_EXECUCAO=08:00
 ```
 
-> **Gmail:** a `EMAIL_SENHA` deve ser uma **senha de app**, não a senha da conta.
-> Gere em: Conta Google → Segurança → Verificação em 2 etapas → Senhas de app.
+> **Gmail:** `EMAIL_SENHA` must be an **app password**, not your account password.
+> Generate one at: Google Account → Security → 2-Step Verification → App passwords.
 
-### 3. Formato esperado dos arquivos de entrada
+### 3. Expected input file format
 
-Os arquivos `.xlsx` devem ter cabeçalho na linha 2 e conter as colunas:
+The `.xlsx` files must have a header on row 2 and contain the following columns:
 
-| Coluna | Descrição |
-|--------|-----------|
-| Quantidade | Quantidade vendida |
-| Valor Unit. (R$) | Valor unitário |
-| Status | `Aprovado`, `Cancelado` ou `Pendente` |
+| Column | Description |
+|--------|-------------|
+| Quantidade | Units sold |
+| Valor Unit. (R$) | Unit price |
+| Status | `Aprovado`, `Cancelado` or `Pendente` |
 
-## Uso
+## Usage
 
 ```bash
 python main.py
 ```
 
-O sistema inicia o monitoramento da pasta `input/`. Ao detectar um novo arquivo `.xlsx`:
+The system starts monitoring the `input/` folder. When a new `.xlsx` file is detected:
 
-1. Aguarda 2 segundos (garante que o arquivo terminou de ser copiado)
-2. Processa e consolida todos os arquivos presentes na pasta
-3. Envia o relatório por e-mail com o arquivo consolidado em anexo
-4. Move os arquivos processados para `repository/<data>_<hora>/`
-5. Registra o resultado em `logs/execucao.log`
+1. Waits 2 seconds to ensure the file has finished copying
+2. Processes and consolidates all files present in the folder
+3. Sends the report by email with the consolidated file as an attachment
+4. Moves the processed files to `repository/<date>_<time>/`
+5. Records the result in `logs/execucao.log`
 
-## Fluxo de execução
+## Execution flow
 
 ```
-input/*.xlsx detectado
+input/*.xlsx detected
        │
        ▼
 excel_handler.processar()
-  ├── lê os dados (pandas)
-  ├── calcula Total (R$) = Quantidade × Valor Unit.
-  └── grava em output/ com formatação condicional
+  ├── reads data (pandas)
+  ├── calculates Total (R$) = Quantidade × Valor Unit.
+  └── writes to output/ with conditional formatting
        │
        ▼
 mail_sender.enviar_email()
-  ├── monta corpo com resumo (total, aprovados, cancelados, pendentes)
-  └── envia com anexo via SMTP Gmail
+  ├── builds body with summary (total, approved, cancelled, pending)
+  └── sends with attachment via SMTP Gmail
        │
        ▼
 excel_handler.mover_arquivos_processados()
-  └── move input/*.xlsx → repository/YYYY-MM-DD_HH-MM-SS/
+  └── moves input/*.xlsx → repository/YYYY-MM-DD_HH-MM-SS/
 ```
 
-## Testes
+## Tests
 
 ```bash
-python tests/test_main.py     # fluxo completo
-python tests/test_excel.py    # processamento Excel
-python tests/test_email.py    # envio de e-mail
-python tests/test_reporter.py # log de execução
+python tests/test_main.py     # full flow
+python tests/test_excel.py    # Excel processing
+python tests/test_email.py    # email delivery
+python tests/test_reporter.py # execution log
 ```
