@@ -1,5 +1,5 @@
 from datetime import datetime
-import config
+from . import config
 
 # ─── Relatório de Execução ────────────────────────────────
 

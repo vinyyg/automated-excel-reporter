@@ -1,0 +1,22 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "excel-reporter"
+version = "0.1.0"
+description = "Sistema de automação que monitora uma pasta, consolida arquivos Excel e envia relatório por e-mail."
+readme = "README.md"
+requires-python = ">=3.10"
+authors = [
+    { name = "Vinicius Guerra" }
+]
+dependencies = [
+    "pandas",
+    "openpyxl",
+    "watchdog",
+    "python-dotenv",
+]
+
+[tool.setuptools.packages.find]
+where = ["src"]

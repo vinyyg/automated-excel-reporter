@@ -3,7 +3,7 @@ import threading
 from pathlib import Path
 from watchdog.observers import Observer
 from watchdog.events import FileSystemEventHandler
-import config
+from . import config
 
 class MonitorPasta(FileSystemEventHandler):
     def __init__(self, job):

@@ -1,53 +1,53 @@
-import sys
-from pathlib import Path
+"""Ponto de entrada — monitora a pasta de input e processa arquivos Excel."""
 
-sys.path.append(str(Path(__file__).parent / "src"))
+import logging
+from datetime import datetime
 
-import excel_handler
-import mail_sender
-import reporter
-import scheduler
+from excel_reporter import config, excel_handler, mail_sender, reporter, scheduler
 
-def executar():
+logger = logging.getLogger(__name__)
+
+
+def executar() -> None:
+    """Executa um ciclo completo: lê arquivos, consolida, envia e arquiva."""
     reporter.iniciar()
-
     try:
-        # ─── Excel ────────────────────────────────────────
-        pasta_input = Path(__file__).parent / "input"
-        arquivos = list(pasta_input.glob("*.xlsx"))
+        config.validar()
 
+        arquivos = list(config.PASTA_INPUT.glob("*.xlsx"))
         reporter.registrar("Arquivos encontrados", "OK", f"{len(arquivos)} arquivos")
 
         if not arquivos:
-            reporter.registrar("Nenhum arquivo encontrado", "ERRO", str(pasta_input))
+            reporter.registrar(
+                "Nenhum arquivo encontrado", "ERRO", str(config.PASTA_INPUT)
+            )
             return
 
         caminho_consolidado, df = None, None
         for arquivo in arquivos:
             caminho_consolidado, df = excel_handler.processar(arquivo)
-            reporter.registrar(f"Processado: {arquivo.name}", "OK", f"{len(df)} linhas")
+            reporter.registrar(
+                f"Processado: {arquivo.name}", "OK", f"{len(df)} linhas"
+            )
 
-        # ─── E-mail ───────────────────────────────────────
-        from datetime import datetime
         data_atual = datetime.now().strftime("%d/%m/%Y")
-
         mail_sender.enviar_email(
-            para          = "guerramarcosv@gmail.com",
-            assunto       = f"Relatório Automático - {data_atual}",
-            corpo         = mail_sender.montar_corpo(df),
-            caminho_anexo = caminho_consolidado
+            para=config.EMAIL_DESTINATARIO,
+            assunto=f"{config.ASSUNTO_EMAIL} - {data_atual}",
+            corpo=mail_sender.montar_corpo(df),
+            caminho_anexo=caminho_consolidado,
         )
-        reporter.registrar("E-mail enviado", "OK", "guerramarcosv@gmail.com")
+        reporter.registrar("E-mail enviado", "OK", config.EMAIL_DESTINATARIO)
 
-         # ───Move Files ───────────────────────────────────────
         pasta_destino = excel_handler.mover_arquivos_processados()
         reporter.registrar("Arquivos movidos", "OK", str(pasta_destino))
-        
-    except Exception as e:
-        reporter.registrar("Erro na execução", "ERRO", str(e))
 
+    except Exception:
+        logger.exception("Erro na execução do pipeline")
+        reporter.registrar("Erro na execução", "ERRO", "ver logs/execucao.log")
     finally:
         reporter.finalizar()
+
 
 if __name__ == "__main__":
     scheduler.iniciar_monitoramento(executar)

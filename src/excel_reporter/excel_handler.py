@@ -3,7 +3,7 @@ from openpyxl import load_workbook, Workbook
 from openpyxl.styles import PatternFill
 from pathlib import Path
 from datetime import datetime
-import config
+from . import config
 
 VERDE    = PatternFill("solid", start_color="C6EFCE")
 VERMELHO = PatternFill("solid", start_color="FFC7CE")

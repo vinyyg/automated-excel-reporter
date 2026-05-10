@@ -4,8 +4,8 @@ import os
 from pathlib import Path
 from dotenv import load_dotenv
 
-BASE_DIR = Path(__file__).parent
-load_dotenv(dotenv_path=BASE_DIR / ".env")
+PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent
+load_dotenv(dotenv_path=PROJECT_ROOT / ".env")
 
 
 def _path_or_default(env_var: str, default: Path) -> Path:
@@ -14,11 +14,13 @@ def _path_or_default(env_var: str, default: Path) -> Path:
     return Path(valor) if valor else default
 
 
-PASTA_INPUT      = _path_or_default("PASTA_INPUT",      BASE_DIR / "input")
-PASTA_REPOSITORY = _path_or_default("PASTA_REPOSITORY", BASE_DIR / "repository")
-ARQUIVO_SAIDA    = _path_or_default("ARQUIVO_SAIDA",    BASE_DIR / "output" / "report.xlsx")
-ARQUIVO_LOG      = _path_or_default("ARQUIVO_LOG",      BASE_DIR / "logs" / "execucao.log")
+# Caminhos 
+PASTA_INPUT      = _path_or_default("PASTA_INPUT",      PROJECT_ROOT / "input")
+PASTA_REPOSITORY = _path_or_default("PASTA_REPOSITORY", PROJECT_ROOT / "repository")
+ARQUIVO_SAIDA    = _path_or_default("ARQUIVO_SAIDA",    PROJECT_ROOT / "output" / "report.xlsx")
+ARQUIVO_LOG      = _path_or_default("ARQUIVO_LOG",      PROJECT_ROOT / "logs" / "execucao.log")
 
+# E-mail 
 EMAIL_REMETENTE    = os.getenv("EMAIL_REMETENTE")
 EMAIL_SENHA        = os.getenv("EMAIL_SENHA")
 EMAIL_DESTINATARIO = os.getenv("EMAIL_DESTINATARIO")

@@ -1,5 +1,30 @@
-.env
+# Python
 __pycache__/
-*.pyc
-output/
-logs/
+*.py[cod]
+*$py.class
+*.egg-info/
+.pytest_cache/
+
+# Ambientes virtuais
+venv/
+.venv/
+env/
+
+# Variáveis de ambiente
+.env
+
+# IDE
+.vscode/
+.idea/
+
+# Saídas geradas em runtime
+output/*
+!output/.gitkeep
+logs/*
+!logs/.gitkeep
+repository/*
+!repository/.gitkeep
+
+# OS
+.DS_Store
+Thumbs.db
