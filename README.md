@@ -1,3 +1,5 @@
+[![Tests](https://github.com/vinyyg/automated-excel-reporter/actions/workflows/tests.yml/badge.svg)](https://github.com/vinyyg/automated-excel-reporter/actions/workflows/tests.yml)
+
 # Automated Excel Report
 
 An automation system that monitors a folder, consolidates Excel sales files, sends the report by email, and archives the processed files.
