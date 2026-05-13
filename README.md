@@ -1,8 +1,12 @@
 [![Tests](https://github.com/vinyyg/automated-excel-reporter/actions/workflows/tests.yml/badge.svg)](https://github.com/vinyyg/automated-excel-reporter/actions/workflows/tests.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
+
 
 # Automated Excel Report
 
-An automation system that monitors a folder, consolidates Excel sales files, sends the report by email, and archives the processed files.
+Automation system that monitors a folder for Excel files, consolidates them into a single report, sends the report by email, and archives the processed files. Built in Python with pandas, openpyxl, and watchdog.
+
 
 ## Features
 
@@ -18,7 +22,7 @@ An automation system that monitors a folder, consolidates Excel sales files, sen
 ```
 automated-excel-report/
 ├── main.py                  # Entry point — starts the folder monitoring
-├── config.py                # Environment variable loading
+├── pyproject.toml           # Build config and dependencies
 ├── requirements.txt
 ├── .env                     # Environment variables (not versioned)
 ├── .env.example             # Configuration template
@@ -27,16 +31,17 @@ automated-excel-report/
 ├── repository/              # Processed files archived by date/time
 ├── logs/
 │   └── execucao.log
-├── src/
-│   ├── excel_handler.py     # Excel reading, processing and consolidation
-│   ├── mail_sender.py       # Email composition and delivery
-│   ├── reporter.py          # Execution report and log
-│   └── scheduler.py         # Folder monitoring with watchdog
+├── docs/
+└── src/
+    └── excel_reporter/
+        ├── config.py        # Environment variable loading and validation
+        ├── excel_handler.py # Excel reading, processing and consolidation
+        ├── mail_sender.py   # Email composition and delivery
+        ├── reporter.py      # Execution report and log
+        └── scheduler.py    # Folder monitoring with watchdog
 └── tests/
-    ├── test_excel.py
-    ├── test_email.py
-    ├── test_reporter.py
-    └── test_main.py         # Full flow test
+    ├── test_config.py
+    └── test_excel_handler.py
 ```
 
 ## Setup
@@ -44,7 +49,7 @@ automated-excel-report/
 ### 1. Install dependencies
 
 ```bash
-pip install -r requirements.txt
+pip install -e ".[dev]"
 ```
 
 ### 2. Configure environment variables
@@ -67,6 +72,8 @@ HORARIO_EXECUCAO=08:00
 
 > **Gmail:** `EMAIL_SENHA` must be an **app password**, not your account password.
 > Generate one at: Google Account → Security → 2-Step Verification → App passwords.
+
+> **Path variables are optional.** If omitted, the system uses the default folders relative to the project root.
 
 ### 3. Expected input file format
 
@@ -116,8 +123,7 @@ excel_handler.mover_arquivos_processados()
 ## Tests
 
 ```bash
-python tests/test_main.py     # full flow
-python tests/test_excel.py    # Excel processing
-python tests/test_email.py    # email delivery
-python tests/test_reporter.py # execution log
+pytest
+# or with verbose output
+pytest -v
 ```

@@ -1,4 +1,7 @@
 [![Tests](https://github.com/vinyyg/automated-excel-reporter/actions/workflows/tests.yml/badge.svg)](https://github.com/vinyyg/automated-excel-reporter/actions/workflows/tests.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
+
 
 # Automated Excel Report
 
@@ -18,7 +21,7 @@ Sistema de automação que monitora uma pasta, consolida arquivos Excel de venda
 ```
 automated-excel-report/
 ├── main.py                  # Ponto de entrada — inicia o monitoramento
-├── config.py                # Leitura de variáveis de ambiente
+├── pyproject.toml           # Configuração de build e dependências
 ├── requirements.txt
 ├── .env                     # Variáveis de ambiente (não versionado)
 ├── .env.example             # Modelo de configuração
@@ -27,16 +30,17 @@ automated-excel-report/
 ├── repository/              # Arquivos processados arquivados por data/hora
 ├── logs/
 │   └── execucao.log
-├── src/
-│   ├── excel_handler.py     # Leitura, processamento e consolidação dos Excel
-│   ├── mail_sender.py       # Montagem e envio de e-mail
-│   ├── reporter.py          # Relatório de execução e log
-│   └── scheduler.py        # Monitoramento de pasta com watchdog
+├── docs/
+└── src/
+    └── excel_reporter/
+        ├── config.py        # Leitura e validação de variáveis de ambiente
+        ├── excel_handler.py # Leitura, processamento e consolidação dos Excel
+        ├── mail_sender.py   # Montagem e envio de e-mail
+        ├── reporter.py      # Relatório de execução e log
+        └── scheduler.py    # Monitoramento de pasta com watchdog
 └── tests/
-    ├── test_excel.py
-    ├── test_email.py
-    ├── test_reporter.py
-    └── test_main.py         # Teste completo do fluxo
+    ├── test_config.py
+    └── test_excel_handler.py
 ```
 
 ## Configuração
@@ -44,7 +48,7 @@ automated-excel-report/
 ### 1. Instalar dependências
 
 ```bash
-pip install -r requirements.txt
+pip install -e ".[dev]"
 ```
 
 ### 2. Configurar variáveis de ambiente
@@ -67,6 +71,8 @@ HORARIO_EXECUCAO=08:00
 
 > **Gmail:** a `EMAIL_SENHA` deve ser uma **senha de app**, não a senha da conta.
 > Gere em: Conta Google → Segurança → Verificação em 2 etapas → Senhas de app.
+
+> **As variáveis de caminho são opcionais.** Se omitidas, o sistema usa as pastas padrão relativas à raiz do projeto.
 
 ### 3. Formato esperado dos arquivos de entrada
 
@@ -116,8 +122,7 @@ excel_handler.mover_arquivos_processados()
 ## Testes
 
 ```bash
-python tests/test_main.py     # fluxo completo
-python tests/test_excel.py    # processamento Excel
-python tests/test_email.py    # envio de e-mail
-python tests/test_reporter.py # log de execução
+pytest
+# ou com saída detalhada
+pytest -v
 ```
